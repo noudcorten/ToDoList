@@ -8,17 +8,20 @@
 
 import UIKit
 
+// MARK: updates the checker according to the state
 @objc protocol ToDoCellDelegate: class {
     func checkmarkTapped(sender: ToDoCell)
 }
 
 class ToDoCell: UITableViewCell {
 
+    // MARK: properties
     @IBOutlet weak var isCompletedButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     
     var delegate: ToDoCellDelegate?
     
+    // MARK: checks if the ToDo is checked and updates the data accordingly
     @IBAction func completeButtonTapped(_ sender: UIButton) {
         delegate?.checkmarkTapped(sender: self)
     }

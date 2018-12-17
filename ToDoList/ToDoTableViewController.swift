@@ -12,6 +12,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
 
     var todos = [ToDo]()
     
+    // MARK: checks if there are ToDos that can be loaded, if not it loads in the 3 sample ToDos
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.leftBarButtonItem = self.editButtonItem
@@ -35,6 +36,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         return todos.count
     }
 
+    // MARK: Edits each cell corresponding to that ToDo entry
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoCellIdentifier", for: indexPath) as! ToDoCell
         cell.delegate = self
@@ -49,6 +51,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         return true
     }
 
+    // MARK: if the user wants to delete ToDos it can delete a ToDo row by row
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             todos.remove(at: indexPath.row)
@@ -57,6 +60,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         }
     }
 
+    // MARK: if a ToDo is clicked it goes to the details screen with giving the right information of the clicked ToDo
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetails" {
             let todoViewController = segue.destination as! ToDoViewController
@@ -66,6 +70,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         }
     }
     
+    // MARK: when the user edited some ToDos (for example delete) then the 'Done' button saves these changes
     @IBAction func unwindToToDoList(segue: UIStoryboardSegue) {
         guard segue.identifier == "saveUnwind" else { return }
         let sourceViewController = segue.source as! ToDoViewController
@@ -84,6 +89,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         ToDo.saveToDos(todos)
     }
     
+    // MARK: updates the UI corresponding to the state of the ToDo (checked/unchecked)
     func checkmarkTapped(sender: ToDoCell) {
         if let indexPath = tableView.indexPath(for: sender) {
             let todo = todos[indexPath.row]

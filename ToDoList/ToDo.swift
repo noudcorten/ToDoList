@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: ToDo class which keeps track of everyting in the ToDoEntry
 class ToDo: NSObject, NSCoding {
     var title: String
     var isComplete: Bool
@@ -55,6 +56,7 @@ class ToDo: NSObject, NSCoding {
         
     }
     
+    // MARK: uses encode to store the properties
     func encode(with aCoder: NSCoder) {
         aCoder.encode(title, forKey: PropertyKeys.title)
         aCoder.encode(isComplete, forKey: PropertyKeys.isComplete)
@@ -66,6 +68,7 @@ class ToDo: NSObject, NSCoding {
         return NSKeyedUnarchiver.unarchiveObject(withFile: ToDo.ArchiveURL.path) as? [ToDo]
     }
     
+    // MARK: loads in 3 ToDos when the app starts
     static func loadSampleToDos() -> [ToDo] {
         let todo1 = ToDo(title: "ToDo One", isComplete: false, dueDate: Date(), notes: "Notes 1")
         let todo2 = ToDo(title: "ToDo Two", isComplete: false, dueDate: Date(), notes: "Notes 2")

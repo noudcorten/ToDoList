@@ -10,6 +10,7 @@ import UIKit
 
 class ToDoViewController: UITableViewController {
 
+    // MARK: properties
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var isCompletedButton: UIButton!
     @IBOutlet weak var dueDateLabel: UILabel!
@@ -22,6 +23,7 @@ class ToDoViewController: UITableViewController {
 
     var todo: ToDo?
     
+    // MARK: loads in the detailed information of the chosen ToDO
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,6 +61,7 @@ class ToDoViewController: UITableViewController {
         updateDueDateLabel(with: dueDatePickerView.date)
     }
 
+    // MARK: updates the UI corresponding to if the user wants to change the date and time or not
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let normalCellHeight = CGFloat(44.0)
         let largeCellHeight = CGFloat(200.0)
@@ -73,12 +76,12 @@ class ToDoViewController: UITableViewController {
         }
     }
     
+    // MARK: calls the right functions if the user wants to change the date and time
     override func tableView(_ tableView: UITableView, didSelectRowAt
         indexPath: IndexPath) {
         switch (indexPath) {
         case [0,1]:
             isEndDatePickerHidden = !isEndDatePickerHidden
-            
             
             dueDateLabel.textColor =
                 isEndDatePickerHidden ? .black : tableView.tintColor
@@ -90,6 +93,7 @@ class ToDoViewController: UITableViewController {
         }
     }
 
+    // MARK: if the user is done making changes and pressed the 'Done' button, the controller sends a segue with the updated information
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "saveUnwind" else { return }
@@ -102,11 +106,13 @@ class ToDoViewController: UITableViewController {
         todo = ToDo(title: title, isComplete: isCompleted, dueDate: dueDate, notes: notes)
     }
 
+    // MARK: updates the 'Save' button according to the state
     func updateSaveButtonState() {
         let text = titleTextField.text ?? ""
         saveButton.isEnabled = !text.isEmpty
     }
-
+    
+    // MARK: updates the 'DueDate' label according to the state
     func updateDueDateLabel(with date: Date) {
         dueDateLabel.text = ToDo.dueDateFormatter.string(from: date)
     }
